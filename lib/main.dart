@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         home: Scaffold(
            resizeToAvoidBottomInset : false,
             appBar:  AppBar(
-              title: Text("Flutter Pw Validator"),
+              title: Text("NINJA STUDY"),
             ),
             body:  DefaultTabController(
         length: 2,

@@ -56,11 +56,13 @@ class _SignUpState extends State<SignUp>with SingleTickerProviderStateMixin {
     return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 12.5),
       child: Column(
+        
         children: [
         
           Flexible(
             flex: 7,
             child: Column(
+               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
                   controller: namecontroller,
@@ -100,14 +102,14 @@ class _SignUpState extends State<SignUp>with SingleTickerProviderStateMixin {
                     setState(() {
                       _passwordMatching = true;
                     });
-                    print("MATCHED");
+                  
                   
                   },
                   onFail: () {
                     setState(() {
                       _passwordMatching = false;
                     });
-                    print("Please Check Password");
+                    
                   },
                 ),
                 SizedBox(
@@ -122,9 +124,11 @@ class _SignUpState extends State<SignUp>with SingleTickerProviderStateMixin {
               if(user != null){
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setBool('isLoggedIn', true);
+              await prefs.setString('bucket', namecontroller.text);
              Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => HomePage()),(Route<dynamic> route) => false,);
+            
             }
-            print("added");
+          
            
        
           
@@ -146,11 +150,23 @@ class _SignUpState extends State<SignUp>with SingleTickerProviderStateMixin {
 
           ElevatedButton(onPressed:()async{
             try{
-           await _googleSignIn.signIn();
+            
+        var googleuser=   await _googleSignIn.signIn();
+        print("oyee");
+        if(googleuser != null){
+         print(googleuser.email);
            SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setBool('isGoogleLoggedIn', true);
+              await prefs.setString('bucket', googleuser.email);
               Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => HomePage()),(Route<dynamic> route) => false,);
-            
+        }
+        else{
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Google Sign in failed'),
+              ));
+        }
+      
+        
             }catch(e){
               print(e);
             }

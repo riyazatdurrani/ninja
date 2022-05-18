@@ -129,6 +129,7 @@ if(isLoggedIn == true ||isGoogleLoggedIn == true){
                  if(users.toString().contains(user.toMap().toString())){
                  SharedPreferences prefs = await SharedPreferences.getInstance();
                  await prefs.setBool('isLoggedIn', true);
+                 await prefs.setString('bucket', namecontroller.text);
                  Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => HomePage()),(Route<dynamic> route) => false,);
             
                 }else{  
